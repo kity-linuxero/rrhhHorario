@@ -1,12 +1,12 @@
 "/portal/mis_fichadas" === window.location.pathname && _Horario(), "/portal/novedades_asistencia" === window.location.pathname && _Asistencia();
-var server = "https://sysi-lp.github.io/rrhhHorario/",
+var server = "https://kity-linuxero.github.io/rrhhHorario/",
     treload = 0;
 
 function _Horario() {
     $.getScript("http://momentjs.com/downloads/moment-with-locales.min.js", function() {
         moment.locale("es");
         var a = obtenerHorario(348e5),
-            e = 18e5;
+            e = 0; //Corrección
         calcular(a, e), $("select").on("change", function() {
             setCookie($(this).attr("dataDate"), $(this).val(), 60), calcular(a, e)
         }), $.getScript("http://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js", function() {
@@ -197,7 +197,7 @@ function Cargarformulario(a, e) {
             s = getCookie(n + e + "comision");
         SetearComision(a, s, n, e);
         var l = getCookie(n + e + "boleta");
-        SetearBoleta(a, l, n, e), BotonSonidoView(), $(".licencia").attr("href", server + "License.txt"), $(".detalleDia").click(function(e) {
+        SetearBoleta(a, l, n, e), $(".licencia").attr("href", server + "License.txt"), $(".detalleDia").click(function(e) {
             e.preventDefault();
             var t = $(this),
                 o = $($(a).find(".resumen #detalleDia"));
@@ -211,12 +211,6 @@ function Cargarformulario(a, e) {
     }
 }
 
-function BotonSonidoView() {
-    $(".salida").click(function() {
-        SonidoView()
-    })
-}
-
 function mostrar(a, e, t, o, i, r, n, s) {
     var l = $(e).find(".resumen"),
         d = compensacion(a, o, i, r, n, s),
@@ -227,11 +221,11 @@ function mostrar(a, e, t, o, i, r, n, s) {
     if (0 !== a.falta) {
         var u = moment().add(a.falta, "ms"),
             b = o.add(i.Ths, "ms");
-        (u > b || d < 0) && a.enEdificio > 216e5 ? (f = CalcualarBoleta(u, b, a.fuera, r, a, i), u > b && (u = b)) : u > b && (u = b), (u = u.subtract(c.asMilliseconds(), "ms")) < moment() && 0 === $("main div.container").find("div.chau").length && ($("main div.container").prepend('<div class="chau col s12" style="background-color:orange;"><h3 style="background-color:orange;"><center>¡¡Chauuu!! Te podes ir <i class="fa fa-hand-stop-o" aria-hidden="true"></i></center></h1></div>'), parpadear(), alerta("Horario cumplido", "info")), u.clone().subtract(184e3, "ms") < moment() && (window.actualizarSonido || (SonidoView(), window.actualizarSonido = 1)), window.actualizarPermanencia || (window.actualizarPermanencia = setInterval(function() {
+        (u > b || d < 0) && a.enEdificio > 216e5 ? (f = CalcualarBoleta(u, b, a.fuera, r, a, i), u > b && (u = b)) : u > b && (u = b), (u = u.subtract(c.asMilliseconds(), "ms")) < moment() && 0 === $("main div.container").find("div.chau").length && ($("main div.container").prepend('<div class="chau col s12" style="background-color:orange;"><h3 style="background-color:orange;"><center>¡¡Chauuu!! Te podes ir <i class="fa fa-hand-stop-o" aria-hidden="true"></i></center></h1></div>'), parpadear(), alerta("Horario cumplido", "info")), u.clone().subtract(184e3, "ms") < moment(), window.actualizarPermanencia || (window.actualizarPermanencia = setInterval(function() {
             calcular(i, r)
         }, 1e3))
     } else {
-        window.actualizarSonido && window.clearInterval(window.actualizarSonido);
+        //window.actualizarSonido && window.clearInterval(window.actualizarSonido);
         l = o.clone();
         ((u = o.add(a.total.asMilliseconds(), "ms")) > (b = l.add(i.Ths, "ms")) || d < 0) && a.enEdificio > 216e5 && (f = CalcualarBoleta(u, b, a.fuera, r, a, i))
     }
@@ -429,18 +423,6 @@ function mostraDatosEnEdif(a, e, t, o) {
 
 function parpadear() {
     $(".chau").fadeIn(350).delay(150).fadeOut(350, parpadear)
-}
-
-function autoPlayVideo(a, e, t) {
-    "use strict";
-    $("#videoContainer").html('<iframe width="' + e + '" height="' + t + '" src="https://www.youtube.com/embed/' + a + '?autoplay=1&loop=1&rel=0&wmode=transparent" frameborder="0" allowfullscreen wmode="Opaque"></iframe>')
-}
-
-function SonidoView() {
-    "use strict";
-    $("#videoContainer").html('<iframe width="450" height="283" src="https://www.youtube.com/embed/EBKdrzaVmVk?autoplay=1&loop=1&rel=0&wmode=transparent" frameborder="0" allowfullscreen wmode="Opaque"></iframe>'), setTimeout(function() {
-        $($("#chat-message-audio")[0]).attr("src", server + "sonido.mp3"), $("#chat-message-audio")[0].load(), $("#chat-message-audio")[0].play()
-    }, 184e3)
 }
 
 function dragElement(a) {
